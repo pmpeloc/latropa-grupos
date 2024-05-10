@@ -1,5 +1,6 @@
 import laTropaLogo from './assets/La_Tropa.png';
 import './App.css';
+import { GroupParticipantsForm } from './components/GroupParticipantsForm';
 
 function App() {
   return (
@@ -7,9 +8,10 @@ function App() {
       <img
         src={laTropaLogo}
         alt='La Tropa'
-        style={{ marginLeft: 50, width: '50%' }}
+        style={{ marginLeft: 30, width: '50%' }}
       />
-      <h1>La Tropa</h1>
+      <h1>Generador de Grupos</h1>
+      <GroupParticipantsForm />
     </>
   );
 }
