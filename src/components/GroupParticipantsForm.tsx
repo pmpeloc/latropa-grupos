@@ -1,20 +1,28 @@
 import { useEffect, useState } from 'react';
-import { ParticipantGenre, participants } from '../constants/participants';
+import {
+  ParticipantGenre,
+  UUID,
+  participants,
+} from '../constants/participants';
 
 export interface Participant {
+  id: UUID;
   name: string;
   genre: ParticipantGenre;
 }
 
 export function GroupParticipantsForm() {
   const [participant, setParticipant] = useState<Participant>({
+    id: '' as UUID,
     name: '',
     genre: ParticipantGenre.MALE,
   });
   const [participantsList, setParticipantsList] = useState<Participant[]>([]);
+  const [leadersList, setLeadersList] = useState<Participant[]>([]);
 
   useEffect(() => {
     const participantsFromStorage = localStorage.getItem('participants');
+    const leadersFromStorage = localStorage.getItem('leaders');
 
     if (
       participantsFromStorage &&
@@ -24,11 +32,19 @@ export function GroupParticipantsForm() {
     } else {
       setParticipantsList(participants);
     }
+
+    if (leadersFromStorage && JSON.parse(leadersFromStorage).length > 0) {
+      setLeadersList(JSON.parse(leadersFromStorage));
+    }
   }, []);
 
   useEffect(() => {
     localStorage.setItem('participants', JSON.stringify(participantsList));
   }, [participantsList]);
+
+  useEffect(() => {
+    localStorage.setItem('leaders', JSON.stringify(leadersList));
+  }, [leadersList]);
 
   function handleSubmit(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
@@ -50,8 +66,35 @@ export function GroupParticipantsForm() {
       return;
     }
 
+    participant.id = crypto.randomUUID();
+    const nameCapitalized =
+      participant.name.charAt(0).toUpperCase() + participant.name.slice(1);
+    participant.name = nameCapitalized.trim();
+
     setParticipantsList([participant, ...participantsList]);
-    setParticipant({ ...participant, name: '' });
+    setParticipant({ ...participant, name: '', id: '' as UUID });
+  }
+
+  function handleDeleteParticipant(id: UUID) {
+    const newParticipantsList = participantsList.filter((p) => p.id !== id);
+
+    setParticipantsList(newParticipantsList);
+  }
+
+  function handleSelectLeader(id: UUID) {
+    const leader = participantsList.find((p) => p.id === id);
+
+    if (!leader) {
+      return;
+    }
+
+    const newLeadersList = [...leadersList, leader];
+
+    setLeadersList(newLeadersList);
+  }
+
+  function participantIsLeader(id: UUID) {
+    return leadersList.some((p) => p.id === id);
   }
 
   return (
@@ -133,8 +176,10 @@ export function GroupParticipantsForm() {
                     justifyContent: 'center',
                     gap: '1em',
                   }}>
-                  <div>❌</div>
-                  <div>🦸‍♂️</div>
+                  <div onClick={() => handleDeleteParticipant(p.id)}>❌</div>
+                  <div onClick={() => handleSelectLeader(p.id)}>
+                    {participantIsLeader(p.id) ? '🦸‍♂️' : '👤'}
+                  </div>
                 </td>
               </tr>
             ))}
