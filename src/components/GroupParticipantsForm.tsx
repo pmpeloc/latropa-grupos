@@ -182,6 +182,7 @@ export function GroupParticipantsForm() {
         state: {
           groups: participantsByGroup,
           groupsQuantity: Number(gruopsQuantity),
+          leaders: shuffledLeaders,
         },
       });
     } else {
@@ -199,6 +200,7 @@ export function GroupParticipantsForm() {
         state: {
           groups: [firstGroup, secondGroup],
           groupsQuantity: 2,
+          leaders: shuffledLeaders,
         },
       });
     }
@@ -290,7 +292,11 @@ export function GroupParticipantsForm() {
                   }}>
                   <div onClick={() => handleDeleteParticipant(p.id)}>❌</div>
                   <div onClick={() => handleSelectLeader(p.id)}>
-                    {participantIsLeader(p.id) ? '🦸‍♂️' : '👤'}
+                    {participantIsLeader(p.id)
+                      ? p.genre === ParticipantGenre.MALE
+                        ? '🦸‍♂️'
+                        : '🦸‍♀️'
+                      : '👤'}
                   </div>
                 </td>
               </tr>
