@@ -27,7 +27,7 @@ export const participants: Participant[] = [
   { id: crypto.randomUUID(), name: 'Day', genre: ParticipantGenre.FEMALE },
   { id: crypto.randomUUID(), name: 'Sabri', genre: ParticipantGenre.FEMALE },
   { id: crypto.randomUUID(), name: 'Aylen', genre: ParticipantGenre.FEMALE },
-  { id: crypto.randomUUID(), name: 'Selene', genre: ParticipantGenre.FEMALE },
+  { id: crypto.randomUUID(), name: 'Selena', genre: ParticipantGenre.FEMALE },
   { id: crypto.randomUUID(), name: 'Maru', genre: ParticipantGenre.FEMALE },
   { id: crypto.randomUUID(), name: 'Vani', genre: ParticipantGenre.FEMALE },
   { id: crypto.randomUUID(), name: 'Vale', genre: ParticipantGenre.FEMALE },
