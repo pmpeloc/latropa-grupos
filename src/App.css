@@ -18,6 +18,22 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+.participants-list {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  width: 90%;
+  height: 24.5em;
+  margin: 0 auto;
+  margin-top: 1.5em;
+}
+
+.participants-list table {
+  width: 100%;
+  display: block;
+  overflow-y: scroll;
+}
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
@@ -39,4 +55,11 @@
 
 .read-the-docs {
   color: #888;
+}
+
+@media only screen and (min-width: 768px) {
+  /* For desktop: */
+  th {
+    width: 100%;
+  }
 }
