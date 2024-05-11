@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ParticipantGenre, participants } from '../constants/participants';
 
 export interface Participant {
@@ -11,11 +11,44 @@ export function GroupParticipantsForm() {
     name: '',
     genre: ParticipantGenre.MALE,
   });
-  const [participantsList, setParticipantsList] =
-    useState<Participant[]>(participants);
+  const [participantsList, setParticipantsList] = useState<Participant[]>([]);
+
+  useEffect(() => {
+    const participantsFromStorage = localStorage.getItem('participants');
+
+    if (
+      participantsFromStorage &&
+      JSON.parse(participantsFromStorage).length > 0
+    ) {
+      setParticipantsList(JSON.parse(participantsFromStorage));
+    } else {
+      setParticipantsList(participants);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('participants', JSON.stringify(participantsList));
+  }, [participantsList]);
 
   function handleSubmit(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
+
+    if (!participant.name) {
+      alert('El nombre del participante es requerido');
+      return;
+    }
+
+    const participantExists = participantsList.find(
+      (p) =>
+        p.name.localeCompare(participant.name, 'es', {
+          sensitivity: 'base',
+        }) === 0
+    );
+
+    if (participantExists) {
+      alert('El participante ya existe');
+      return;
+    }
 
     setParticipantsList([participant, ...participantsList]);
     setParticipant({ ...participant, name: '' });
@@ -56,9 +89,22 @@ export function GroupParticipantsForm() {
             </select>
           </div>
         </div>
-        <button onClick={handleSubmit} style={{ marginTop: '2em' }}>
-          Agregar participante
-        </button>
+        <div
+          style={{
+            display: 'flex',
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: '1em',
+            marginTop: '1em',
+          }}>
+          <button onClick={handleSubmit}>Agregar participante</button>
+          <button
+            onClick={() => localStorage.clear()}
+            style={{ borderColor: 'red' }}>
+            Reset
+          </button>
+        </div>
       </form>
       <div
         style={{
