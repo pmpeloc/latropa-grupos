@@ -16,13 +16,19 @@ export function GroupParticipantsForm() {
     genre: ParticipantGenre.MALE,
   });
 
+  function handleSubmit(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.preventDefault();
+
+    console.log({ participant });
+  }
+
   return (
     <form>
-      <div style={{ display: 'flex', justifyContent: 'center', gap: 20 }}>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '1em' }}>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <label htmlFor='participant'>Participante:</label>
           <input
-            style={{ height: 30, width: 250, marginTop: 10 }}
+            style={{ height: '1.5em', width: '10em', marginTop: '0.5em' }}
             type='text'
             id='participant'
             name='participant'
@@ -35,7 +41,7 @@ export function GroupParticipantsForm() {
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <label htmlFor='genre'>Género:</label>
           <select
-            style={{ height: 36, width: 150, marginTop: 10 }}
+            style={{ height: '1.75em', width: '6em', marginTop: '0.5em' }}
             id='genre'
             name='genre'
             value={participant.genre}
@@ -50,7 +56,7 @@ export function GroupParticipantsForm() {
           </select>
         </div>
       </div>
-      <button type='submit' style={{ marginTop: 40 }}>
+      <button onClick={handleSubmit} style={{ marginTop: '2em' }}>
         Agregar participante
       </button>
     </form>
