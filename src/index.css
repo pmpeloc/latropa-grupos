@@ -75,6 +75,32 @@ button:focus-visible {
 
 img {
   width: 20em;
+  margin-left: 3.5em;
+}
+
+table {
+  background-color: white;
+  color: black;
+}
+
+tr {
+  font-size: 1.2em;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #ddd;
+}
+
+th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #242424;
+  color: white;
 }
 
 @media only screen and (max-width: 768px) {
@@ -84,5 +110,6 @@ img {
   }
   img {
     width: 10em;
+    margin-left: 1.5em;
   }
 }
